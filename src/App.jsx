@@ -1,10 +1,28 @@
-import { useState } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import Children from './components/Children'
 
+// const arr = ['one', 'two', 'three']
+// const fetchData = async () => {
+//   await fetch('https://jsonplaceholder.typicode.com/todos/1')
+//     .then((response) => response.json())
+//     .then((json) => console.log(json))
+// }
 function App() {
   const [count, setCount] = useState(0)
-
+  const arr = useMemo(() => {
+    return ['one', 'two', 'three']
+  }, [])
+  const fetchData = useCallback(async () => {
+    await fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then((response) => response.json())
+      .then((json) => console.log(json))
+  }, [])
+  useEffect(() => {
+    fetchData()
+  }, [])
+  console.log('run app')
   return (
     <div className="App">
       <div>
@@ -27,6 +45,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Children arr={arr} fetchData={fetchData} />
     </div>
   )
 }

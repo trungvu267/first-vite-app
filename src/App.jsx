@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import Children from './components/Children'
@@ -9,11 +9,13 @@ import Children from './components/Children'
 //     .then((response) => response.json())
 //     .then((json) => console.log(json))
 // }
+// const ref = React.createRef()
 function App() {
   const [count, setCount] = useState(0)
   const arr = useMemo(() => {
     return ['one', 'two', 'three']
   }, [])
+
   const fetchData = useCallback(async () => {
     await fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then((response) => response.json())
@@ -23,9 +25,32 @@ function App() {
     fetchData()
   }, [])
   console.log('run app')
+  // const [inputValue, setInputValue] = useState('')
+  const countRef = useRef(0)
+  const [countV2, setCountV2] = useState(0)
+  const input = useRef()
+  // useEffect(() => {
+  //   // countRef.current = countRef.current + 1
+  //   setCountV2((preCount) => preCount + 1)
+  // })
+  const focusInput = () => {
+    input.current.focus()
+    console.log(input.current.value)
+  }
   return (
     <div className="App">
       <div>
+        <input
+          type="text"
+          ref={input}
+          // value={inputValue}
+          // onChange={(e) => setInputValue(e.target.value)}
+        />
+        {/* <h1>Render Count: {countRef.current}</h1> */}
+        {/* <h1>Render Count: {countV2}</h1> */}
+        <button onClick={focusInput}>Focus Input</button>
+      </div>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
         </a>
@@ -45,7 +70,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <Children arr={arr} fetchData={fetchData} />
+      <Children arr={arr} fetchData={fetchData} /> */}
+      {/* <FancyButton ref={ref}>Click me!</FancyButton> */}
     </div>
   )
 }
